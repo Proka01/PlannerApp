@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,7 +13,7 @@ import rs.raf.projekat1.aleksa_prokic_1420rn.R;
 import rs.raf.projekat1.aleksa_prokic_1420rn.SQLiteDB.DBManager;
 import rs.raf.projekat1.aleksa_prokic_1420rn.SQLiteDB.User;
 import rs.raf.projekat1.aleksa_prokic_1420rn.view.activities.LoginActivity;
-import rs.raf.projekat1.aleksa_prokic_1420rn.view.activities.MainActivity;
+import rs.raf.projekat1.aleksa_prokic_1420rn.view.activities.BottomNavigationActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -49,7 +48,7 @@ public class SplashActivity extends AppCompatActivity {
 
                 if(skipLogin)
                 {
-                    Intent intentMain= new Intent(SplashActivity.this, MainActivity.class);
+                    Intent intentMain= new Intent(SplashActivity.this, BottomNavigationActivity.class);
                     startActivity(intentMain);
                     finish();
                 }

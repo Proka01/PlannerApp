@@ -12,7 +12,7 @@
         android:theme="@style/Theme.Rsrafprojekat1aleksa_prokic_1420rn"
         tools:targetApi="31">
         <activity
-            android:name=".view.activities.MainActivity"
+            android:name=".view.activities.BottomNavigationActivity"
             android:exported="false" />
         <activity
             android:name=".view.activities.LoginActivity"

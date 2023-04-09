@@ -2,6 +2,7 @@ package rs.raf.projekat1.aleksa_prokic_1420rn.view.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import rs.raf.projekat1.aleksa_prokic_1420rn.R;
 import rs.raf.projekat1.aleksa_prokic_1420rn.SQLiteDB.DBManager;
+import rs.raf.projekat1.aleksa_prokic_1420rn.application.SplashActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -57,6 +59,10 @@ public class LoginActivity extends AppCompatActivity {
             editor.putString("password", password);
             editor.putString("email", email);
             editor.apply();
+
+            Intent intentMain= new Intent(LoginActivity.this, BottomNavigationActivity.class);
+            startActivity(intentMain);
+            finish();
         });
     }
 }
