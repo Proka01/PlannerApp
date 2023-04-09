@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,18 +77,40 @@ public class DBManager {
         return users;
     }
 
-    public int updateUser(long _id, String username, String password, String email) {
+    public int updateUser(String username, String password, String email) {
         this.open();
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(DatabaseHelper.USERNAME, username);
         contentValues.put(DatabaseHelper.PASSWORD, password);
-        contentValues.put(DatabaseHelper.EMAIL, email);
-        int i = database.update(DatabaseHelper.TABLE_NAME, contentValues, DatabaseHelper._ID + " = " + _id, null);
+
+        //This is more elegant whay to do multiple argument where clause but its not working
+//        // Defining the WHERE clause
+//        String whereClause = String.format("%s = ? AND %s = ?", DatabaseHelper.USERNAME, DatabaseHelper.EMAIL);
+//        Toast.makeText(context.getApplicationContext(), whereClause, Toast.LENGTH_SHORT).show();
+//
+//        // Defining the values for the WHERE clause
+//        String[] whereArgs = {username, password};
+
+        int i = database.update(DatabaseHelper.TABLE_NAME, contentValues
+                , DatabaseHelper.USERNAME + " = " + "\"" +username + "\"" + " AND " + DatabaseHelper.EMAIL + " = " + "\"" +email + "\""
+                , null);
 
         this.close(); //Mozda treba da se obrise
         return i;
     }
+
+//    public int updateUser(long _id, String username, String password, String email) {
+//        this.open();
+//
+//        ContentValues contentValues = new ContentValues();
+//        contentValues.put(DatabaseHelper.USERNAME, username);
+//        contentValues.put(DatabaseHelper.PASSWORD, password);
+//        contentValues.put(DatabaseHelper.EMAIL, email);
+//        int i = database.update(DatabaseHelper.TABLE_NAME, contentValues, DatabaseHelper._ID + " = " + _id, null);
+//
+//        this.close(); //Mozda treba da se obrise
+//        return i;
+//    }
 
     public void delete(long _id) {
         database.delete(DatabaseHelper.TABLE_NAME, DatabaseHelper._ID + "=" + _id, null);

@@ -8,9 +8,13 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.List;
 
 import rs.raf.projekat1.aleksa_prokic_1420rn.R;
 import rs.raf.projekat1.aleksa_prokic_1420rn.SQLiteDB.DBManager;
+import rs.raf.projekat1.aleksa_prokic_1420rn.SQLiteDB.User;
 import rs.raf.projekat1.aleksa_prokic_1420rn.application.SplashActivity;
 
 public class LoginActivity extends AppCompatActivity {
@@ -30,9 +34,23 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void init() {
-        dbManager = new DBManager(this);
+        initDataBase();
         initView();
         initListeners();
+    }
+
+    private void initDataBase()
+    {
+        dbManager = new DBManager(this);
+
+        //hardcoding database
+        List<User> userList = dbManager.getAllUsers();
+        if(userList.size() == 0)
+        {
+            //insert user to DB
+            dbManager.insertUser("aa","123","aa@gmail.com");
+            dbManager.insertUser("student","123","student@gmail.com");
+        }
     }
 
     private void initView() {
@@ -45,24 +63,31 @@ public class LoginActivity extends AppCompatActivity {
 
     private void initListeners() {
         loginBtn.setOnClickListener(v -> {
+
+            List<User> userList = dbManager.getAllUsers();
+
             String username = usernameET.getText().toString();
             String password = passwordET.getText().toString();
             String email = emailET.getText().toString();
+            User user = new User(email, username, password);
 
-            //insert user to DB
-            dbManager.insertUser(username,password,email);
+            if(userList.contains(user))
+            {
+                //insert last active user to shared preferences
+                SharedPreferences sharedPreferences = getSharedPreferences("PlannerAppSharedPref", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("username", username);
+                editor.putString("password", password);
+                editor.putString("email", email);
+                editor.apply();
 
-            //insert last active user to shared preferences
-            SharedPreferences sharedPreferences = getSharedPreferences("PlannerAppSharedPref", MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("username", username);
-            editor.putString("password", password);
-            editor.putString("email", email);
-            editor.apply();
+                Intent intentMain= new Intent(LoginActivity.this, BottomNavigationActivity.class);
+                startActivity(intentMain);
+                finish();
+            }
+            else
+                Toast.makeText(this, "User does not exist", Toast.LENGTH_SHORT).show();
 
-            Intent intentMain= new Intent(LoginActivity.this, BottomNavigationActivity.class);
-            startActivity(intentMain);
-            finish();
         });
     }
 }
