@@ -12,11 +12,16 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import rs.raf.projekat1.aleksa_prokic_1420rn.R;
+import rs.raf.projekat1.aleksa_prokic_1420rn.view.activities.BottomNavigationActivity;
 import rs.raf.projekat1.aleksa_prokic_1420rn.view.recycler.DateCellAdapter;
 import rs.raf.projekat1.aleksa_prokic_1420rn.view.recycler.DateCellDifferentCallback;
 import rs.raf.projekat1.aleksa_prokic_1420rn.view.recycler.RecyclerViewModel;
+import rs.raf.projekat1.aleksa_prokic_1420rn.view.viewpager.PagerAdapter;
 
 public class CalendarFragment extends Fragment {
 
@@ -60,9 +65,19 @@ public class CalendarFragment extends Fragment {
     }
 
     private void initRecycler(View view) {
-        dateCellAdapter = new DateCellAdapter(new DateCellDifferentCallback(), car -> {
-            Toast.makeText(view.getContext(), car.getId() + "", Toast.LENGTH_SHORT).show();
+
+        //u konstruktoru se prosledi sta se desi kad se klikne na datum kao callback
+        dateCellAdapter = new DateCellAdapter(new DateCellDifferentCallback(), dateCell -> {
+            Toast.makeText(view.getContext(), dateCell.getId() + "", Toast.LENGTH_SHORT).show();
+
+            //TODO: Da li ovo moze nekako bolje, vise oop da bude
+            //moze li ovo lepse
+            BottomNavigationActivity bottomNavigationActivity = (BottomNavigationActivity) getActivity();
+            bottomNavigationActivity.getViewPager().setCurrentItem(PagerAdapter.FRAGMENT_DAILY_PLAN, false);
+            BottomNavigationView bottomNavigationView = ((BottomNavigationView)getActivity().findViewById(R.id.bottomNavigation));
+            bottomNavigationView.setSelectedItemId(R.id.navigation_2);
         });
+
         gridLayoutManager = new GridLayoutManager(view.getContext(), 7, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(dateCellAdapter);

@@ -12,7 +12,7 @@ import rs.raf.projekat1.aleksa_prokic_1420rn.view.viewpager.PagerAdapter;
 
 public class BottomNavigationActivity extends AppCompatActivity {
 
-    private ViewPager viewPager;
+    public ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,5 +41,9 @@ public class BottomNavigationActivity extends AppCompatActivity {
             }
             return true;
         });
+    }
+
+    public ViewPager getViewPager() {
+        return viewPager;
     }
 }

@@ -7,4 +7,10 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- plan importance   -->
+    <color name="low">#57cc99</color>
+    <color name="mid">#f7cd35</color>
+    <color name="high">#f58a51</color>
+
 </resources>
