@@ -10,17 +10,15 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import rs.raf.projekat1.aleksa_prokic_1420rn.R;
 import rs.raf.projekat1.aleksa_prokic_1420rn.view.activities.BottomNavigationActivity;
-import rs.raf.projekat1.aleksa_prokic_1420rn.view.recycler.DateCellAdapter;
-import rs.raf.projekat1.aleksa_prokic_1420rn.view.recycler.DateCellDifferentCallback;
-import rs.raf.projekat1.aleksa_prokic_1420rn.view.recycler.RecyclerViewModel;
+import rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerCalendar.DateCellAdapter;
+import rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerCalendar.DateCellDifferentCallback;
+import rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerCalendar.RecyclerViewModel;
 import rs.raf.projekat1.aleksa_prokic_1420rn.view.viewpager.PagerAdapter;
 
 public class CalendarFragment extends Fragment {

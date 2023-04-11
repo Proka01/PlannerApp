@@ -1,4 +1,4 @@
-package rs.raf.projekat1.aleksa_prokic_1420rn.view.recycler;
+package rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerCalendar;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -9,11 +9,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class RecyclerViewModel extends ViewModel {
 
-    public static int counter = 101;
+    public static int counter = 10000;
 
     private final MutableLiveData<List<DateCell>> dateCells = new MutableLiveData<>();
     private ArrayList<DateCell> dateCellList = new ArrayList<>();
@@ -58,10 +57,10 @@ public class RecyclerViewModel extends ViewModel {
         return id;
     }
 
-    public void removeCar(int id) {
-        Optional<DateCell> carObject = dateCellList.stream().filter(dateCell -> dateCell.getId() == id).findFirst();
-        if (carObject.isPresent()) {
-            dateCellList.remove(carObject.get());
+    public void removeDateCell(int id) {
+        Optional<DateCell> dateCellObject = dateCellList.stream().filter(dateCell -> dateCell.getId() == id).findFirst();
+        if (dateCellObject.isPresent()) {
+            dateCellList.remove(dateCellObject.get());
             ArrayList<DateCell> listToSubmit = new ArrayList<>(dateCellList);
             dateCells.setValue(listToSubmit);
         }

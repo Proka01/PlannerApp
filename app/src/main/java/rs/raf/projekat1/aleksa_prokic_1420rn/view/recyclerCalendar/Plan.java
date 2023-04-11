@@ -1,4 +1,6 @@
-package rs.raf.projekat1.aleksa_prokic_1420rn.view.recycler;
+package rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerCalendar;
+
+import androidx.annotation.Nullable;
 
 import java.util.Date;
 
@@ -8,6 +10,18 @@ public class Plan {
     private String title;
     private String description;
     private int importanceColor;
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        Plan p = (Plan) obj;
+
+        return
+                p.getDate().equals(this.date) &&
+                p.getTime().equals(this.time) &&
+                p.getDescription().equals(this.description) &&
+                p.getTitle().equals(this.title) &&
+                p.getImportanceColor() == this.importanceColor;
+    }
 
     public Plan() {
     }

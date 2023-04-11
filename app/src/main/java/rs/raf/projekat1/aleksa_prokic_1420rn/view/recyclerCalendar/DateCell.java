@@ -1,4 +1,4 @@
-package rs.raf.projekat1.aleksa_prokic_1420rn.view.recycler;
+package rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerCalendar;
 
 import java.util.ArrayList;
 import java.util.Date;

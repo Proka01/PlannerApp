@@ -4,8 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import rs.raf.projekat1.aleksa_prokic_1420rn.view.recycler.DateCell;
-import rs.raf.projekat1.aleksa_prokic_1420rn.view.recycler.Plan;
+import rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerCalendar.DateCell;
 
 public class SharedViewModel extends ViewModel{
     private final MutableLiveData<DateCell> dateCellValue = new MutableLiveData<>();
