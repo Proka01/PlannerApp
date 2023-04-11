@@ -13,10 +13,10 @@ public class DateCell {
     private List<Plan> dailyPlanList = new ArrayList<>();
 
     public DateCell(Date date, String day, int id) {
-        generateRandomPlans();
         this.date = date;
         this.day = day;
         this.id = id;
+        generateRandomPlans();
     }
 
     private void generateRandomPlans()
@@ -24,7 +24,7 @@ public class DateCell {
         String titles[] = {"Algebra lecture", "Dentist", "Project meeting", "Walk the dog"};
         String descriptions[] = {"Groups and Monoids", "Wash teethes", "Prepare presentation", "Throw the ball"};
         String time[] = {"15:00 - 16:00", "16:00 - 17:00", "17:00 - 18:00", "18:00 - 19:00"};
-        int importanceColors[] = {0,1,2};
+        int importanceColors[] = {1,2,2,0};
 
         int min = 0; // inclusive minimum value
         int max = 4; // exclusive maximum value
@@ -39,7 +39,7 @@ public class DateCell {
             for(int i = 0; i < numberOfPlans; i++)
             {
                 int rand = random.nextInt(max - min) + min;
-                Plan plan = new Plan(time[rand],titles[rand],descriptions[rand],importanceColors[rand%3]);
+                Plan plan = new Plan(date,time[rand],titles[rand],descriptions[rand],importanceColors[rand]);
                 this.dailyPlanList.add(plan);
             }
         }

@@ -13,6 +13,7 @@ public class Plan {
 
     @Override
     public boolean equals(@Nullable Object obj) {
+        if(obj == null) return false;
         Plan p = (Plan) obj;
 
         return

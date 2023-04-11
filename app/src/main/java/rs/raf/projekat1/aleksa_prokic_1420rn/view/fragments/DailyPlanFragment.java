@@ -13,8 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Calendar;
+import java.util.List;
 
 import rs.raf.projekat1.aleksa_prokic_1420rn.R;
+import rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerCalendar.Plan;
+import rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerDailyPlan.PlanItem;
 import rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerDailyPlan.PlanItemAdapter;
 import rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerDailyPlan.PlanItemDifferentCallback;
 import rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerDailyPlan.RecyclerViewModeDailyPlan;
@@ -82,11 +85,20 @@ public class DailyPlanFragment extends Fragment {
             String msg = String.valueOf(dayOfMonth) + "/" + String.valueOf(month) + "/" +String.valueOf(year);
 
             tv.setText(msg);
+
+            recyclerViewModeDailyPlan.emptyLiveDataPlanItems();
+            List<Plan> dailyPlanList = dateCell.getDailyPlanList();
+            for (Plan plan : dailyPlanList)
+            {
+                recyclerViewModeDailyPlan.addPlanItem(plan);
+            }
+            planItemAdapter.submitList(recyclerViewModeDailyPlan.getPlanItems().getValue());
+
         });
 
-        recyclerViewModeDailyPlan.getPlanItems().observe(getViewLifecycleOwner(), planItem -> {
-            planItemAdapter.submitList(planItem);
-        });
+//        recyclerViewModeDailyPlan.getPlanItems().observe(getViewLifecycleOwner(), planItem -> {
+//            planItemAdapter.submitList(planItem);
+//        });
     }
 
 }
