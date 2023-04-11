@@ -31,7 +31,9 @@ public class CalendarFragment extends Fragment {
 
     private DateCellAdapter dateCellAdapter;
 
-    GridLayoutManager gridLayoutManager;
+    private GridLayoutManager gridLayoutManager;
+
+    private SharedViewModel sharedViewModel;
 
     public CalendarFragment() {
         super(R.layout.fragment_calendar);
@@ -46,6 +48,7 @@ public class CalendarFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerViewModel = new ViewModelProvider(this).get(RecyclerViewModel.class);
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
         init(view);
     }
 
@@ -72,6 +75,9 @@ public class CalendarFragment extends Fragment {
 
             //TODO: Da li ovo moze nekako bolje, vise oop da bude
             //moze li ovo lepse
+
+            sharedViewModel.storeDateCellValue(dateCell);
+
             BottomNavigationActivity bottomNavigationActivity = (BottomNavigationActivity) getActivity();
             bottomNavigationActivity.getViewPager().setCurrentItem(PagerAdapter.FRAGMENT_DAILY_PLAN, false);
             BottomNavigationView bottomNavigationView = ((BottomNavigationView)getActivity().findViewById(R.id.bottomNavigation));
