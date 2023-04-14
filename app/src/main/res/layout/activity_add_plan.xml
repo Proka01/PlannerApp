@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.activities.AddPlanActivity">
+
+    <LinearLayout
+        android:id="@+id/buttons_linear_layout_create_plan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/data_cell_layout_border"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.00">
+
+        <Button
+            android:id="@+id/lowBtn_create_plan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/low"
+            android:text="Low"
+            android:textColor="@color/black"
+            app:backgroundTint="@null" />
+
+        <Button
+            android:id="@+id/midBtn_create_plan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/mid"
+            android:text="MID"
+            android:textColor="@color/black"
+            app:backgroundTint="@null" />
+
+        <Button
+            android:id="@+id/highBtn_create_plan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/high"
+            android:text="HIGH"
+            android:textColor="@color/black"
+            app:backgroundTint="@null" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="681dp"
+        android:orientation="vertical"
+        android:paddingTop="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttons_linear_layout_create_plan">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/data_cell_layout_border"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp">
+
+            <EditText
+                android:id="@+id/editTextTitle_create_plan"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:inputType="text"
+                android:text="Title" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/data_cell_layout_border"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp">
+
+            <EditText
+                android:id="@+id/editTextTime"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:inputType="time"
+                android:hint="From" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="30sp"
+                android:layout_marginRight="5dp"
+                android:text="-" />
+
+            <EditText
+                android:id="@+id/editTextTimeTo"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="time"
+                android:hint="To"/>
+
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:srcCompat="@android:drawable/ic_menu_recent_history" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:background="@drawable/data_cell_layout_border"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp">
+
+            <EditText
+                android:id="@+id/description_create_plan"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="text"
+                android:text="Description" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/createPlanBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Create"
+                android:textColor="@color/black"
+                android:background="@color/low"
+                app:backgroundTint="@null"
+                />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/cancelCreatePlaneBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Cancel"
+                android:textColor="@color/black"
+                android:background="@color/high"
+                app:backgroundTint="@null"/>
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,8 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+
 import rs.raf.projekat1.aleksa_prokic_1420rn.R;
 import rs.raf.projekat1.aleksa_prokic_1420rn.view.activities.BottomNavigationActivity;
+import rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerCalendar.DateCell;
 import rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerCalendar.DateCellAdapter;
 import rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerCalendar.DateCellDifferentCallback;
 import rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerCalendar.RecyclerViewModel;
@@ -33,6 +38,8 @@ public class CalendarFragment extends Fragment {
 
     private SharedViewModel sharedViewModel;
 
+    private SharedViewModel sharedViewModelForRerendering;
+
     public CalendarFragment() {
         super(R.layout.fragment_calendar);
     }
@@ -47,6 +54,7 @@ public class CalendarFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         recyclerViewModel = new ViewModelProvider(this).get(RecyclerViewModel.class);
         sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        sharedViewModelForRerendering = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
         init(view);
     }
 
@@ -91,5 +99,16 @@ public class CalendarFragment extends Fragment {
         recyclerViewModel.getDateCells().observe(getViewLifecycleOwner(), dateCell -> {
             dateCellAdapter.submitList(dateCell);
         });
-    }
+
+        sharedViewModelForRerendering.getDateCellValue().observe(getViewLifecycleOwner(), (dateCell) -> {
+            // Create a new list with the modified DateCell object
+            List<DateCell> newList = new ArrayList<>(dateCellAdapter.getCurrentList());
+            newList.set(dateCell.getId(), dateCell);
+            dateCellAdapter.submitList(newList);
+
+            Toast.makeText(view.getContext(), "Rerender!", Toast.LENGTH_SHORT).show();
+
+        });
+
+        }
 }

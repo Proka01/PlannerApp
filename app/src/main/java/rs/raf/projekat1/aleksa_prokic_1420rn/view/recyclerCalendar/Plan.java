@@ -2,9 +2,10 @@ package rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerCalendar;
 
 import androidx.annotation.Nullable;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Plan {
+public class Plan implements Serializable {
     private Date date;
     private String time;
     private String title;

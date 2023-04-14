@@ -1,11 +1,12 @@
 package rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerCalendar;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-public class DateCell {
+public class DateCell implements Serializable {
 
     private int id;
     private Date date;
