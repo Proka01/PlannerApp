@@ -61,6 +61,7 @@ public class DailyPlanFragment extends Fragment {
         init(view);
     }
 
+    //okine se pri vracanju iz pozvanog activitija
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
@@ -72,7 +73,7 @@ public class DailyPlanFragment extends Fragment {
             //da upamti dodatu obavezu i u cellGrid-u Calendar fragmenta
             sharedViewModel.getDateCellValue().getValue().getDailyPlanList().add(newPlan);
 
-            //da rerenderuje tu celiju u calendar fragmentu ukoliko jepotrebno
+            //da rerenderuje tu celiju u calendar fragmentu ukoliko je potrebno
             sharedViewModelForRerendering.storeDateCellValue(sharedViewModel.getDateCellValue().getValue());
         }
     }
@@ -96,11 +97,15 @@ public class DailyPlanFragment extends Fragment {
     }
 
     private void initRecycler(View view) {
-        planItemAdapter = new PlanItemAdapter(new PlanItemDifferentCallback(), planItem -> {
+        planItemAdapter = new PlanItemAdapter(recyclerViewModeDailyPlan,new PlanItemDifferentCallback(), planItem -> {
             Toast.makeText(view.getContext(), planItem.getId() + "", Toast.LENGTH_SHORT).show();
 
             //TODO otvoriti novi intent ka activity sa detaljima o planu
         });
+
+        planItemAdapter.setSharedViewModel(sharedViewModel);
+        planItemAdapter.setSharedViewModelForRerendering(sharedViewModelForRerendering);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setAdapter(planItemAdapter);
     }
