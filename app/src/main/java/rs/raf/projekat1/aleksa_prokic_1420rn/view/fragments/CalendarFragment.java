@@ -102,11 +102,12 @@ public class CalendarFragment extends Fragment {
 
         sharedViewModelForRerendering.getDateCellValue().observe(getViewLifecycleOwner(), (dateCell) -> {
             // Create a new list with the modified DateCell object
-            List<DateCell> newList = new ArrayList<>(dateCellAdapter.getCurrentList());
-            newList.set(dateCell.getId(), dateCell);
-            dateCellAdapter.submitList(newList);
+//            List<DateCell> newList = new ArrayList<>(dateCellAdapter.getCurrentList());
+//            newList.set(dateCell.getId(), dateCell);
+//            dateCellAdapter.submitList(newList);
 
             Toast.makeText(view.getContext(), "Rerender!", Toast.LENGTH_SHORT).show();
+            dateCellAdapter.notifyItemChanged(dateCell.getId());
 
         });
 

@@ -84,7 +84,7 @@ public class AddPlanActivity extends AppCompatActivity {
         });
 
         highBtn.setOnClickListener(v -> {
-            importance = 0;
+            importance = 2;
         });
     }
 }

@@ -22,13 +22,13 @@ public class RecyclerViewModel extends ViewModel {
         Date today = calendar.getTime();
 
         List<Date> dates = new ArrayList<>();
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < counter; i++) {
             dates.add(today);
             calendar.add(Calendar.DAY_OF_MONTH, 1); // increment the date by one day
             today = calendar.getTime();
         }
 
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < counter; i++) {
             Date d = dates.get(i);
             calendar = Calendar.getInstance(); // set the Calendar's time to the given date
             calendar.setTime(d);
@@ -49,11 +49,13 @@ public class RecyclerViewModel extends ViewModel {
     }
 
     public int addDateCell(Date date, String dayOfMonth) {
-        int id = counter++;
+        int id = counter;
         DateCell dateCell = new DateCell(date,dayOfMonth,id);
         dateCellList.add(dateCell);
         ArrayList<DateCell> listToSubmit = new ArrayList<>(dateCellList);
         dateCells.setValue(listToSubmit);
+
+        counter++;
         return id;
     }
 

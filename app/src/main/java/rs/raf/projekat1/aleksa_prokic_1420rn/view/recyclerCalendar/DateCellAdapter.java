@@ -1,6 +1,8 @@
 package rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerCalendar;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,6 +64,9 @@ public class DateCellAdapter extends ListAdapter<DateCell, DateCellAdapter.ViewH
             View layout = dayOfMonthTV.getRootView();
 
             dayOfMonthTV.setText(dateCell.getDay());
+            layout.setBackgroundColor(Color.WHITE);
+            Drawable myDrawable = context.getResources().getDrawable(R.drawable.data_cell_layout_border);
+            layout.setBackground(myDrawable);
 
             if(dateCell.getDailyPlanList().size() > 0)
             {

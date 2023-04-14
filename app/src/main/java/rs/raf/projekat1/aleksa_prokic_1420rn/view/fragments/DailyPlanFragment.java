@@ -116,6 +116,9 @@ public class DailyPlanFragment extends Fragment {
         //iz calendar fragmenta u daili fragment prebacujemo cellItem preko sharedView modela
         //kad se taj dogadjaj okine, tada punimo recyclerView od dailyPlan fragment-a
         sharedViewModel.getDateCellValue().observe(getViewLifecycleOwner(), (dateCell) -> {
+
+            Toast.makeText(view.getContext(), String.valueOf(sharedViewModel.getDateCellValue().getValue().getDailyPlanList().size()), Toast.LENGTH_SHORT).show();
+
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(dateCell.getDate());
             int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
