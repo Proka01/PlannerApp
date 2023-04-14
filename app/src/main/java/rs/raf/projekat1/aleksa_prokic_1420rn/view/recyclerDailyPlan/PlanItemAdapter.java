@@ -1,6 +1,8 @@
 package rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerDailyPlan;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,7 +23,10 @@ import java.util.ArrayList;
 import java.util.function.Consumer;
 
 import rs.raf.projekat1.aleksa_prokic_1420rn.R;
+import rs.raf.projekat1.aleksa_prokic_1420rn.view.activities.AddPlanActivity;
+import rs.raf.projekat1.aleksa_prokic_1420rn.view.activities.EditPlanActivity;
 import rs.raf.projekat1.aleksa_prokic_1420rn.view.fragments.SharedViewModel;
+import rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerCalendar.DateCell;
 import rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerCalendar.Plan;
 
 public class PlanItemAdapter extends ListAdapter<PlanItem, PlanItemAdapter.ViewHolder> {
@@ -29,6 +35,8 @@ public class PlanItemAdapter extends ListAdapter<PlanItem, PlanItemAdapter.ViewH
     private  RecyclerViewModeDailyPlan recyclerViewModeDailyPlan;
     private SharedViewModel sharedViewModel;
     private SharedViewModel sharedViewModelForRerendering;
+
+    private Fragment parentFragment;
 
     public PlanItemAdapter(RecyclerViewModeDailyPlan recyclerViewModeDailyPlan, @NonNull DiffUtil.ItemCallback<PlanItem> diffCallback, Consumer<PlanItem> onPlanItemClicked) {
         super(diffCallback);
@@ -42,6 +50,10 @@ public class PlanItemAdapter extends ListAdapter<PlanItem, PlanItemAdapter.ViewH
 
     public void setSharedViewModelForRerendering(SharedViewModel sharedViewModelForRerendering) {
         this.sharedViewModelForRerendering = sharedViewModelForRerendering;
+    }
+
+    public void setParentFragment(Fragment parentFragment) {
+        this.parentFragment = parentFragment;
     }
 
     @NonNull
@@ -91,7 +103,9 @@ public class PlanItemAdapter extends ListAdapter<PlanItem, PlanItemAdapter.ViewH
             }
 
             editPlanIV.setOnClickListener(v -> {
-                Toast.makeText(itemView.getContext(), "edit pressed", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, EditPlanActivity.class);
+                intent.putExtra("planItem", planItem);
+                parentFragment.startActivityForResult(intent, 2);
             });
 
             deletePlanIV.setOnClickListener(v -> {

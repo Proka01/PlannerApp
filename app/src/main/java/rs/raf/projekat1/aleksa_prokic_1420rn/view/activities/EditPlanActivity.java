@@ -9,13 +9,13 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import java.util.Date;
-import java.util.List;
 
 import rs.raf.projekat1.aleksa_prokic_1420rn.R;
 import rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerCalendar.DateCell;
 import rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerCalendar.Plan;
+import rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerDailyPlan.PlanItem;
 
-public class AddPlanActivity extends AppCompatActivity {
+public class EditPlanActivity extends AppCompatActivity {
 
     private int importance = 0;
     private EditText timeFromET;
@@ -27,17 +27,17 @@ public class AddPlanActivity extends AppCompatActivity {
     private Button midBtn;
     private Button highBtn;
 
-    private Button createBtn;
+    private Button saveBtn;
     private Button cancelBtn;
 
-    private DateCell fromIntentDateCell;
+    private PlanItem fromIntentPlanItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_plan);
+        setContentView(R.layout.activity_edit_plan);
 
-        fromIntentDateCell = (DateCell) getIntent().getSerializableExtra("dateCell");
+        fromIntentPlanItem = (PlanItem) getIntent().getSerializableExtra("planItem");
         init();
     }
 
@@ -48,29 +48,40 @@ public class AddPlanActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        timeFromET = findViewById(R.id.editTextTime);
-        timeToET = findViewById(R.id.editTextTimeTo);
-        titleET = findViewById(R.id.editTextTitle_create_plan);
-        descriptionET = findViewById(R.id.description_create_plan);
-        lowBtn = findViewById(R.id.lowBtn_create_plan);
-        midBtn = findViewById(R.id.midBtn_create_plan);
-        highBtn = findViewById(R.id.highBtn_create_plan);
-        createBtn = findViewById(R.id.createPlanBtn);
-        cancelBtn = findViewById(R.id.cancelCreatePlaneBtn);
+        timeFromET = findViewById(R.id.editTextTimeFrom_edit_plan);
+        timeToET = findViewById(R.id.editTextTimeTo_edit_plan);
+        titleET = findViewById(R.id.editTextTitle_edit_plan);
+        descriptionET = findViewById(R.id.description_edit_plan);
+        lowBtn = findViewById(R.id.lowBtn_edit_plan);
+        midBtn = findViewById(R.id.midBtn_edit_plan);
+        highBtn = findViewById(R.id.highBtn_edit_plan);
+        saveBtn = findViewById(R.id.savePlanBtn_edit_plan);
+        cancelBtn = findViewById(R.id.cancelCreatePlaneBtn_edit_plan);
+
+        String time[] = fromIntentPlanItem.getPlan().getTime().split(" - ");
+        if(time.length > 0)
+        {
+            timeFromET.setText(time[0]);
+            timeToET.setText(time[1]);
+        }
+        importance = fromIntentPlanItem.getPlan().getImportanceColor();
+        titleET.setText(fromIntentPlanItem.getPlan().getTitle());
+        descriptionET.setText(fromIntentPlanItem.getPlan().getDescription());
     }
 
     private void initListeners() {
-        createBtn.setOnClickListener(v -> {
+        saveBtn.setOnClickListener(v -> {
             String time = timeFromET.getText().toString() + " - " + timeToET.getText().toString();
             String title = titleET.getText().toString();
             String desc = descriptionET.getText().toString();
-            Date date = fromIntentDateCell.getDate();
+            Date date = fromIntentPlanItem.getPlan().getDate();
 
             //TODO onemoguciti da se doda plan ukoliko se preklpa sa satnicom drugih planova
 
-            Plan newPlan = new Plan(date,time,title,desc,importance);
+            Plan editedPlan = new Plan(date,time,title,desc,importance);
+            fromIntentPlanItem.setPlan(editedPlan);
             Intent returnIntent = new Intent();
-            returnIntent.putExtra("newPlan", newPlan);
+            returnIntent.putExtra("editedPlanItem", fromIntentPlanItem);
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
         });

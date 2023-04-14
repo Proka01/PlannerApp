@@ -51,6 +51,15 @@ public class RecyclerViewModeDailyPlan extends ViewModel {
         return id;
     }
 
+    public int updatePlan(PlanItem planItem) {
+        int id = planItem.getId();
+        planItemList.get(id).setPlan(planItem.getPlan());
+        ArrayList<PlanItem> listToSubmit = new ArrayList<>(planItemList);
+        planItems.setValue(listToSubmit);
+
+        return id;
+    }
+
 //    public void removePlanItem(PlanItem planItem,Context context) {
 //        Toast.makeText(context, "delete pressed", Toast.LENGTH_LONG).show();
 //        //Optional<PlanItem> planItemObject = planItemList.stream().filter(planItem -> planItem.getId() == id).findFirst();

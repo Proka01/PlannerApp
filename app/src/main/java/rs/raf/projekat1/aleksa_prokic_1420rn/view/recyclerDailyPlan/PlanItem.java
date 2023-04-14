@@ -1,8 +1,10 @@
 package rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerDailyPlan;
 
+import java.io.Serializable;
+
 import rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerCalendar.Plan;
 
-public class PlanItem {
+public class PlanItem implements Serializable {
     private int id;
     private Plan plan;
 

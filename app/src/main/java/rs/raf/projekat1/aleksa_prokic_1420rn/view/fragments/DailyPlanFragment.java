@@ -76,6 +76,24 @@ public class DailyPlanFragment extends Fragment {
             //da rerenderuje tu celiju u calendar fragmentu ukoliko je potrebno
             sharedViewModelForRerendering.storeDateCellValue(sharedViewModel.getDateCellValue().getValue());
         }
+
+        if (requestCode == 2 && resultCode == Activity.RESULT_OK) {
+
+            PlanItem editedPlanItem = (PlanItem) data.getSerializableExtra("editedPlanItem");
+
+            int id = recyclerViewModeDailyPlan.updatePlan(editedPlanItem);
+            planItemAdapter.notifyItemChanged(id);
+
+            //da upamti dodatu obavezu i u cellGrid-u Calendar fragmenta
+            (sharedViewModel.getDateCellValue().getValue().getDailyPlanList()).get(id).setDate(editedPlanItem.getPlan().getDate());
+            (sharedViewModel.getDateCellValue().getValue().getDailyPlanList()).get(id).setTime(editedPlanItem.getPlan().getTime());
+            (sharedViewModel.getDateCellValue().getValue().getDailyPlanList()).get(id).setTitle(editedPlanItem.getPlan().getTitle());
+            (sharedViewModel.getDateCellValue().getValue().getDailyPlanList()).get(id).setDescription(editedPlanItem.getPlan().getDescription());
+            (sharedViewModel.getDateCellValue().getValue().getDailyPlanList()).get(id).setImportanceColor(editedPlanItem.getPlan().getImportanceColor());
+
+            //da rerenderuje tu celiju u calendar fragmentu ukoliko je potrebno
+            sharedViewModelForRerendering.storeDateCellValue(sharedViewModel.getDateCellValue().getValue());
+        }
     }
 
     private void init(View view) {
@@ -105,6 +123,7 @@ public class DailyPlanFragment extends Fragment {
 
         planItemAdapter.setSharedViewModel(sharedViewModel);
         planItemAdapter.setSharedViewModelForRerendering(sharedViewModelForRerendering);
+        planItemAdapter.setParentFragment(this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setAdapter(planItemAdapter);
