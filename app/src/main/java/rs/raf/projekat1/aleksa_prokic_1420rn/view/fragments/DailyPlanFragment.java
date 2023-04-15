@@ -23,6 +23,7 @@ import java.util.List;
 
 import rs.raf.projekat1.aleksa_prokic_1420rn.R;
 import rs.raf.projekat1.aleksa_prokic_1420rn.view.activities.AddPlanActivity;
+import rs.raf.projekat1.aleksa_prokic_1420rn.view.activities.InspectPlansActivity;
 import rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerCalendar.DateCell;
 import rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerCalendar.Plan;
 import rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerDailyPlan.PlanItem;
@@ -118,7 +119,11 @@ public class DailyPlanFragment extends Fragment {
         planItemAdapter = new PlanItemAdapter(recyclerViewModeDailyPlan,new PlanItemDifferentCallback(), planItem -> {
             Toast.makeText(view.getContext(), planItem.getId() + "", Toast.LENGTH_SHORT).show();
 
-            //TODO otvoriti novi intent ka activity sa detaljima o planu
+            DateCell dateCell = sharedViewModel.getDateCellValue().getValue();
+            Intent intent = new Intent(getActivity(), InspectPlansActivity.class);
+            intent.putExtra("dateCell", dateCell);
+            intent.putExtra("index", dateCell.getDailyPlanList().indexOf(planItem.getPlan()));
+            startActivityForResult(intent, 3);
         });
 
         planItemAdapter.setSharedViewModel(sharedViewModel);
