@@ -41,12 +41,13 @@ public class RecyclerViewModeDailyPlan extends ViewModel {
     }
 
     public int addPlanItem(Plan plan) {
-        int id = counter++;
+        int id = counter;
 
         PlanItem planItem = new PlanItem(id, plan);
         planItemList.add(planItem);
         ArrayList<PlanItem> listToSubmit = new ArrayList<>(planItemList);
         planItems.setValue(listToSubmit);
+        counter++;
 
         return id;
     }

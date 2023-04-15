@@ -119,11 +119,12 @@ public class DailyPlanFragment extends Fragment {
         planItemAdapter = new PlanItemAdapter(recyclerViewModeDailyPlan,new PlanItemDifferentCallback(), planItem -> {
             Toast.makeText(view.getContext(), planItem.getId() + "", Toast.LENGTH_SHORT).show();
 
+            //sta se desi kad se klikne na planItem
             DateCell dateCell = sharedViewModel.getDateCellValue().getValue();
             Intent intent = new Intent(getActivity(), InspectPlansActivity.class);
             intent.putExtra("dateCell", dateCell);
             intent.putExtra("index", dateCell.getDailyPlanList().indexOf(planItem.getPlan()));
-            startActivityForResult(intent, 3);
+            startActivityForResult(intent, 2);
         });
 
         planItemAdapter.setSharedViewModel(sharedViewModel);

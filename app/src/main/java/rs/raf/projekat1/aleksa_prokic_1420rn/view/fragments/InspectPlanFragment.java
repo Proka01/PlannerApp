@@ -1,5 +1,7 @@
 package rs.raf.projekat1.aleksa_prokic_1420rn.view.fragments;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +12,10 @@ import android.widget.EditText;
 import androidx.fragment.app.Fragment;
 
 import rs.raf.projekat1.aleksa_prokic_1420rn.R;
+import rs.raf.projekat1.aleksa_prokic_1420rn.view.activities.EditPlanActivity;
 import rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerCalendar.DateCell;
+import rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerCalendar.Plan;
+import rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerDailyPlan.PlanItem;
 
 public class InspectPlanFragment extends Fragment {
 
@@ -18,18 +23,23 @@ public class InspectPlanFragment extends Fragment {
     private String title;
     private String description;
     private int importance;
+    private Activity parentActivity;
 
     private int id;
     private DateCell dateCell;
+    private Plan plan;
 
-    public static InspectPlanFragment newInstance(String time, String title, String description, int importance){//int id, DateCell dateCell) {
+    public static InspectPlanFragment newInstance(DateCell dateCell, Plan plan, int id, Activity parentActivity){//int id, DateCell dateCell) {
         InspectPlanFragment fragment = new InspectPlanFragment();
-        fragment.time = time;
-        fragment.title = title;
-        fragment.description = description;
-        fragment.importance = importance;
-        //fragment.dateCell = dateCell;
-        //fragment.id = id;
+        fragment.dateCell = dateCell;
+        fragment.plan = plan;
+        fragment.id = id;
+        fragment.parentActivity = parentActivity;
+
+        fragment.time = plan.getTime();
+        fragment.title = plan.getTitle();
+        fragment.description = plan.getDescription();
+        fragment.importance = plan.getImportanceColor();
 
         return fragment;
     }
@@ -38,7 +48,6 @@ public class InspectPlanFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_plan_details, container, false);
-
 
         EditText titleET = rootView.findViewById(R.id.editTextTitle_inspect_plan);
         EditText timeFromET = rootView.findViewById(R.id.editTextTimeFrom_inspect_plan);
@@ -58,6 +67,10 @@ public class InspectPlanFragment extends Fragment {
 
         editBtn.setOnClickListener(v -> {
             //TODO implement
+            Intent intent = new Intent(getContext(), EditPlanActivity.class);
+            PlanItem planItem = new PlanItem(id,plan);
+            intent.putExtra("planItem", planItem);
+            getActivity().startActivityForResult(intent, 4);
         });
 
         deleteBtn.setOnClickListener(v -> {
@@ -66,5 +79,7 @@ public class InspectPlanFragment extends Fragment {
 
         return rootView;
     }
+
+
 
 }
