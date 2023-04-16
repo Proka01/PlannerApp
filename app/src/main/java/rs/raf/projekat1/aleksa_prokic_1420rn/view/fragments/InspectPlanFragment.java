@@ -8,14 +8,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
+
+import com.google.android.material.snackbar.Snackbar;
+
+import java.util.ArrayList;
 
 import rs.raf.projekat1.aleksa_prokic_1420rn.R;
 import rs.raf.projekat1.aleksa_prokic_1420rn.view.activities.EditPlanActivity;
 import rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerCalendar.DateCell;
 import rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerCalendar.Plan;
 import rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerDailyPlan.PlanItem;
+import rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerDailyPlan.PlanItemAdapter;
 
 public class InspectPlanFragment extends Fragment {
 
@@ -74,12 +80,24 @@ public class InspectPlanFragment extends Fragment {
         });
 
         deleteBtn.setOnClickListener(v -> {
-            //TODO implement
+            PlanItem planItem = new PlanItem(id,plan);
+            showAddSnackBar(planItem);
         });
 
         return rootView;
     }
 
+    private void showAddSnackBar(PlanItem planItem) {
 
+        Snackbar
+                .make(getView(), "Delete this plan ?", Snackbar.LENGTH_SHORT)
+                .setAction("Yes", view -> {
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("deletePlanItem", planItem);
+                    parentActivity.setResult(Activity.RESULT_CANCELED, returnIntent);
+                    parentActivity.finish();
+                })
+                .show();
+    }
 
 }

@@ -32,6 +32,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -115,6 +116,22 @@ public class DailyPlanFragment extends Fragment {
             (sharedViewModel.getDateCellValue().getValue().getDailyPlanList()).get(id).setTitle(editedPlanItem.getPlan().getTitle());
             (sharedViewModel.getDateCellValue().getValue().getDailyPlanList()).get(id).setDescription(editedPlanItem.getPlan().getDescription());
             (sharedViewModel.getDateCellValue().getValue().getDailyPlanList()).get(id).setImportanceColor(editedPlanItem.getPlan().getImportanceColor());
+
+            //da rerenderuje tu celiju u calendar fragmentu ukoliko je potrebno
+            sharedViewModelForRerendering.storeDateCellValue(sharedViewModel.getDateCellValue().getValue());
+        }
+
+        if (requestCode == 2 && resultCode == Activity.RESULT_CANCELED) {
+
+            PlanItem planItemToDelete = (PlanItem) data.getSerializableExtra("deletePlanItem");
+
+            recyclerViewModeDailyPlan.getPlanItemList().remove(planItemToDelete);
+            ArrayList<PlanItem> listToSubmit = new ArrayList<>(recyclerViewModeDailyPlan.getPlanItemList());
+            recyclerViewModeDailyPlan.getPlanItems().setValue(listToSubmit);
+            planItemAdapter.submitList(listToSubmit);
+
+            //da upamti dodatu obavezu i u cellGrid-u Calendar fragmenta
+            sharedViewModel.getDateCellValue().getValue().getDailyPlanList().remove(planItemToDelete.getPlan());
 
             //da rerenderuje tu celiju u calendar fragmentu ukoliko je potrebno
             sharedViewModelForRerendering.storeDateCellValue(sharedViewModel.getDateCellValue().getValue());
