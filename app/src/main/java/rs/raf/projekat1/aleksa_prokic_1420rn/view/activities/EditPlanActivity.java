@@ -1,22 +1,29 @@
 package rs.raf.projekat1.aleksa_prokic_1420rn.view.activities;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Layout;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.AlignmentSpan;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import rs.raf.projekat1.aleksa_prokic_1420rn.R;
-import rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerCalendar.DateCell;
 import rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerCalendar.Plan;
 import rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerDailyPlan.PlanItem;
 
 public class EditPlanActivity extends AppCompatActivity {
 
+    private ActionBar actionBar;
     private int importance = 0;
     private EditText timeFromET;
     private EditText timeToET;
@@ -57,6 +64,17 @@ public class EditPlanActivity extends AppCompatActivity {
         highBtn = findViewById(R.id.highBtn_edit_plan);
         saveBtn = findViewById(R.id.savePlanBtn_edit_plan);
         cancelBtn = findViewById(R.id.cancelCreatePlaneBtn_edit_plan);
+        actionBar = getSupportActionBar();
+
+        //seting header title to date
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fromIntentPlanItem.getPlan().getDate());
+        SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM");
+        String monthDayYear = monthFormat.format(new Date(0, calendar.get(Calendar.MONTH), 1));
+        monthDayYear += " " + String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)) + ". " + String.valueOf(calendar.get(Calendar.YEAR)) + ".";
+        SpannableString title = new SpannableString(monthDayYear);
+        title.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, title.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+        actionBar.setTitle(title);
 
         String time[] = fromIntentPlanItem.getPlan().getTime().split(" - ");
         if(time.length > 0)

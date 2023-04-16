@@ -1,6 +1,7 @@
 package rs.raf.projekat1.aleksa_prokic_1420rn.view.activities;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
@@ -8,8 +9,15 @@ import androidx.viewpager.widget.ViewPager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Layout;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.AlignmentSpan;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import rs.raf.projekat1.aleksa_prokic_1420rn.R;
@@ -21,6 +29,7 @@ import rs.raf.projekat1.aleksa_prokic_1420rn.view.viewpager.PlanPagerAdapter;
 
 public class InspectPlansActivity extends AppCompatActivity {
 
+    private ActionBar actionBar;
     private ViewPager viewPager;
     private PlanPagerAdapter planPagerAdapter;
     private List<Fragment> planFragments;
@@ -66,6 +75,18 @@ public class InspectPlansActivity extends AppCompatActivity {
         planPagerAdapter = new PlanPagerAdapter(getSupportFragmentManager(), planFragments);
         viewPager.setAdapter(planPagerAdapter);
         viewPager.setCurrentItem(fromIntentIndex);
+
+        actionBar = getSupportActionBar();
+
+        //seting header title to date
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fromIntentDateCell.getDate());
+        SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM");
+        String monthDayYear = monthFormat.format(new Date(0, calendar.get(Calendar.MONTH), 1));
+        monthDayYear += " " + String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)) + ". " + String.valueOf(calendar.get(Calendar.YEAR)) + ".";
+        SpannableString title = new SpannableString(monthDayYear);
+        title.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, title.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+        actionBar.setTitle(title);
     }
 
     private void initListeners() {

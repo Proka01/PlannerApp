@@ -5,7 +5,11 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Layout;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextWatcher;
+import android.text.style.AlignmentSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -17,6 +21,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,7 +31,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import rs.raf.projekat1.aleksa_prokic_1420rn.R;
@@ -40,8 +48,8 @@ import rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerDailyPlan.RecyclerView
 
 public class DailyPlanFragment extends Fragment {
 
+    private ActionBar actionBar;
     private SharedViewModel sharedViewModel;
-
     private SharedViewModel sharedViewModelForRerendering;
     private TextView tv;
     private EditText filterEditText;
@@ -216,6 +224,7 @@ public class DailyPlanFragment extends Fragment {
         midBtn = view.findViewById(R.id.midBtn);
         highBtn = view.findViewById(R.id.highBtn);
         recyclerView = view.findViewById(R.id.plan_list_rv);
+        actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
     }
 
     private void initObservers(View view) {
@@ -231,8 +240,16 @@ public class DailyPlanFragment extends Fragment {
             int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
             int month = calendar.get(Calendar.MONTH);
             int year = calendar.get(Calendar.YEAR);
-            String msg = String.valueOf(dayOfMonth) + "/" + String.valueOf(month) + "/" +String.valueOf(year);
 
+            //seting header title to date
+            SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM");
+            String monthDayYear = monthFormat.format(new Date(0, calendar.get(Calendar.MONTH), 1));
+            monthDayYear += " " + String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)) + ". " + String.valueOf(calendar.get(Calendar.YEAR)) + ".";
+            SpannableString title = new SpannableString(monthDayYear);
+            title.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, title.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+            actionBar.setTitle(title);
+
+            String msg = String.valueOf(dayOfMonth) + "/" + String.valueOf(month) + "/" +String.valueOf(year);
             tv.setText(msg);
 
             //dodavanje planova u recyclerView dailyPlan fragmenta

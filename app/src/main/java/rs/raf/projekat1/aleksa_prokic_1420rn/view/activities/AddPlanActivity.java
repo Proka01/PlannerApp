@@ -1,13 +1,20 @@
 package rs.raf.projekat1.aleksa_prokic_1420rn.view.activities;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Layout;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.AlignmentSpan;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +24,7 @@ import rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerCalendar.Plan;
 
 public class AddPlanActivity extends AppCompatActivity {
 
+    private ActionBar actionBar;
     private int importance = 0;
     private EditText timeFromET;
     private EditText timeToET;
@@ -57,6 +65,18 @@ public class AddPlanActivity extends AppCompatActivity {
         highBtn = findViewById(R.id.highBtn_create_plan);
         createBtn = findViewById(R.id.createPlanBtn);
         cancelBtn = findViewById(R.id.cancelCreatePlaneBtn);
+
+        actionBar = getSupportActionBar();
+
+        //seting header title to date
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fromIntentDateCell.getDate());
+        SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM");
+        String monthDayYear = monthFormat.format(new Date(0, calendar.get(Calendar.MONTH), 1));
+        monthDayYear += " " + String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)) + ". " + String.valueOf(calendar.get(Calendar.YEAR)) + ".";
+        SpannableString title = new SpannableString(monthDayYear);
+        title.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, title.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+        actionBar.setTitle(title);
     }
 
     private void initListeners() {
