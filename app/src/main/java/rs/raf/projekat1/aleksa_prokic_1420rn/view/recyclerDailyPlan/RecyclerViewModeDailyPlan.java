@@ -1,18 +1,25 @@
 package rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerDailyPlan;
 
 import android.content.Context;
+import android.os.Build;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import rs.raf.projekat1.aleksa_prokic_1420rn.view.recyclerCalendar.Plan;
 
@@ -21,7 +28,7 @@ public class RecyclerViewModeDailyPlan extends ViewModel {
 
     private MutableLiveData<List<PlanItem>> planItems = new MutableLiveData<>();
     private ArrayList<PlanItem> planItemList = new ArrayList<>();
-
+    private List<PlanItem> filteredPlanItemList = new ArrayList<>(planItemList);
     public RecyclerViewModeDailyPlan() {
     }
 
@@ -59,6 +66,57 @@ public class RecyclerViewModeDailyPlan extends ViewModel {
         planItems.setValue(listToSubmit);
 
         return id;
+    }
+
+    public List<PlanItem> filterPlans(String filter) {
+        filteredPlanItemList.clear();
+        filteredPlanItemList = planItemList.stream().filter(planItem
+                -> planItem.getPlan().getTitle().toLowerCase().contains(filter.toLowerCase())).collect(Collectors.toList());
+
+        //ArrayList<PlanItem> listToSubmit = new ArrayList<>(filteredPlanItemList);
+        planItems.setValue(filteredPlanItemList);
+
+        return filteredPlanItemList;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public List<PlanItem> dontShowPastPlans(boolean isChecked) {
+        if(isChecked)
+        {
+            filteredPlanItemList.clear();
+
+            LocalTime currentTime = LocalTime.now();
+            for (PlanItem planItem : planItemList)
+                if (!isPlan1BeforePlan2(planItem.getPlan().getTime(),currentTime)) filteredPlanItemList.add(planItem);
+
+            planItems.setValue(filteredPlanItemList);
+
+            return filteredPlanItemList;
+        }
+        else return planItemList;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private boolean isPlan1BeforePlan2(String time1, LocalTime time2)
+    {
+        LocalTime t1_from = null, t1_to = null;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm", Locale.getDefault());
+        try {
+            String t1[] = time1.split(" - ");
+            t1_from = LocalTime.parse(t1[0], formatter);
+            t1_to = LocalTime.parse(t1[1], formatter);
+        } catch (DateTimeParseException e) {
+            // Handle parsing error...
+        }
+
+        int result = t1_to.compareTo(time2);
+        if (result <= 0) {
+            // time1 is before time2
+            return true;
+        } else {
+            // time1 is after time2
+            return false;
+        }
     }
 
 //    public void removePlanItem(PlanItem planItem,Context context) {

@@ -2,14 +2,21 @@ package rs.raf.projekat1.aleksa_prokic_1420rn.view.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -37,8 +44,10 @@ public class DailyPlanFragment extends Fragment {
 
     private SharedViewModel sharedViewModelForRerendering;
     private TextView tv;
+    private EditText filterEditText;
     private FloatingActionButton floatingAddPlanBtn;
     private RecyclerView recyclerView;
+    private CheckBox checkBox;
 
     private RecyclerViewModeDailyPlan recyclerViewModeDailyPlan;
 
@@ -113,6 +122,34 @@ public class DailyPlanFragment extends Fragment {
             intent.putExtra("dateCell", dateCell);
             startActivityForResult(intent, 1);
         });
+
+        filterEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                List<PlanItem> list = recyclerViewModeDailyPlan.filterPlans(editable.toString());
+                planItemAdapter.notifyDataSetChanged();
+                planItemAdapter.submitList(list);
+            }
+        });
+
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                List<PlanItem> list = recyclerViewModeDailyPlan.dontShowPastPlans(isChecked);
+                planItemAdapter.submitList(list);
+            }
+        });
     }
 
     private void initRecycler(View view) {
@@ -137,7 +174,9 @@ public class DailyPlanFragment extends Fragment {
 
     private void initView(View view) {
         tv = view.findViewById(R.id.daily_plan_tv);
+        filterEditText = view.findViewById(R.id.daily_plan_search_et);
         floatingAddPlanBtn = view.findViewById(R.id.floating_add_btn);
+        checkBox = view.findViewById(R.id.checkBox);
         recyclerView = view.findViewById(R.id.plan_list_rv);
     }
 
