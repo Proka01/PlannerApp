@@ -20,8 +20,22 @@ public class RecyclerViewModel extends ViewModel {
     public RecyclerViewModel() {
         Calendar calendar = Calendar.getInstance();
         Date today = calendar.getTime();
-
         List<Date> dates = new ArrayList<>();
+
+        while (true)
+        {
+            int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+            if (dayOfWeek == Calendar.MONDAY) break;
+            else
+            {
+                calendar.add(Calendar.DAY_OF_MONTH, -1); // decrement the date by one day
+                today = calendar.getTime();
+            }
+        }
+
+        //today variable is now first date before Today's date that is monday
+        calendar.setTime(today);
+
         for (int i = 0; i < counter; i++) {
             dates.add(today);
             calendar.add(Calendar.DAY_OF_MONTH, 1); // increment the date by one day
