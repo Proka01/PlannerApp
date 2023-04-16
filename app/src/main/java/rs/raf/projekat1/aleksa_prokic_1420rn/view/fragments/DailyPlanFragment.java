@@ -49,6 +49,12 @@ public class DailyPlanFragment extends Fragment {
     private RecyclerView recyclerView;
     private CheckBox checkBox;
 
+    private Button lowBtn;
+    private Button midBtn;
+    private Button highBtn;
+    private boolean buttonDispecher = true;
+    private int importanceVal = 3;
+
     private RecyclerViewModeDailyPlan recyclerViewModeDailyPlan;
 
     private PlanItemAdapter planItemAdapter;
@@ -62,6 +68,7 @@ public class DailyPlanFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -106,6 +113,7 @@ public class DailyPlanFragment extends Fragment {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void init(View view) {
         initView(view);
         initListeners(view);
@@ -113,6 +121,7 @@ public class DailyPlanFragment extends Fragment {
         initRecycler(view);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void initListeners(View view) {
         floatingAddPlanBtn.setOnClickListener(v -> {
 
@@ -134,9 +143,10 @@ public class DailyPlanFragment extends Fragment {
 
             }
 
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void afterTextChanged(Editable editable) {
-                List<PlanItem> list = recyclerViewModeDailyPlan.filterPlans(editable.toString());
+                List<PlanItem> list = recyclerViewModeDailyPlan.filterPlans(editable.toString(),importanceVal,checkBox.isChecked());
                 planItemAdapter.notifyDataSetChanged();
                 planItemAdapter.submitList(list);
             }
@@ -146,9 +156,34 @@ public class DailyPlanFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                List<PlanItem> list = recyclerViewModeDailyPlan.dontShowPastPlans(isChecked);
+                List<PlanItem> list = recyclerViewModeDailyPlan.filterPlans(filterEditText.getText().toString(),importanceVal,isChecked);
+                planItemAdapter.notifyDataSetChanged();
                 planItemAdapter.submitList(list);
             }
+        });
+
+        lowBtn.setOnClickListener(v -> {
+            importanceVal = buttonDispecher ? 0 : 3;
+            buttonDispecher = !buttonDispecher;
+            List<PlanItem> list = recyclerViewModeDailyPlan.filterPlans(filterEditText.getText().toString(),importanceVal,checkBox.isChecked());
+            planItemAdapter.notifyDataSetChanged();
+            planItemAdapter.submitList(list);
+        });
+
+        midBtn.setOnClickListener(v -> {
+            importanceVal = buttonDispecher ? 1 : 3;
+            buttonDispecher = !buttonDispecher;
+            List<PlanItem> list = recyclerViewModeDailyPlan.filterPlans(filterEditText.getText().toString(),importanceVal,checkBox.isChecked());
+            planItemAdapter.notifyDataSetChanged();
+            planItemAdapter.submitList(list);
+        });
+
+        highBtn.setOnClickListener(v -> {
+            importanceVal = buttonDispecher ? 2 : 3;
+            buttonDispecher = !buttonDispecher;
+            List<PlanItem> list = recyclerViewModeDailyPlan.filterPlans(filterEditText.getText().toString(),importanceVal,checkBox.isChecked());
+            planItemAdapter.notifyDataSetChanged();
+            planItemAdapter.submitList(list);
         });
     }
 
@@ -177,6 +212,9 @@ public class DailyPlanFragment extends Fragment {
         filterEditText = view.findViewById(R.id.daily_plan_search_et);
         floatingAddPlanBtn = view.findViewById(R.id.floating_add_btn);
         checkBox = view.findViewById(R.id.checkBox);
+        lowBtn = view.findViewById(R.id.lowBtn);
+        midBtn = view.findViewById(R.id.midBtn);
+        highBtn = view.findViewById(R.id.highBtn);
         recyclerView = view.findViewById(R.id.plan_list_rv);
     }
 
@@ -205,6 +243,8 @@ public class DailyPlanFragment extends Fragment {
                 recyclerViewModeDailyPlan.addPlanItem(plan);
             }
             planItemAdapter.submitList(recyclerViewModeDailyPlan.getPlanItems().getValue());
+            planItemAdapter.notifyDataSetChanged();
+            checkBox.setChecked(true);
 
         });
 

@@ -68,10 +68,44 @@ public class RecyclerViewModeDailyPlan extends ViewModel {
         return id;
     }
 
-    public List<PlanItem> filterPlans(String filter) {
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public List<PlanItem> filterPlans(String filterTitle, int importance, boolean showPastPlans) {
+        filteredPlanItemList.clear();
+        LocalTime currentTime = LocalTime.now();
+
+        if((importance >= 0 && importance < 3) && !showPastPlans)
+        {
+            filteredPlanItemList = planItemList.stream().filter(planItem
+                    -> planItem.getPlan().getImportanceColor() == importance &&
+                    planItem.getPlan().getTitle().toLowerCase().startsWith(filterTitle.toLowerCase()) &&
+                    !isPlan1BeforePlan2(planItem.getPlan().getTime(),currentTime)).collect(Collectors.toList());
+        }
+        else if(importance >= 3 && !showPastPlans)
+        {
+            filteredPlanItemList = planItemList.stream().filter(planItem
+                    -> planItem.getPlan().getTitle().toLowerCase().startsWith(filterTitle.toLowerCase()) &&
+                    !isPlan1BeforePlan2(planItem.getPlan().getTime(),currentTime)).collect(Collectors.toList());
+        }
+        else if((importance >= 0 && importance < 3) && showPastPlans)
+        {
+            filteredPlanItemList = planItemList.stream().filter(planItem
+                    -> planItem.getPlan().getImportanceColor() == importance &&
+                    planItem.getPlan().getTitle().toLowerCase().startsWith(filterTitle.toLowerCase())).collect(Collectors.toList());
+        }
+        else
+        {
+            filteredPlanItemList = planItemList.stream().filter(planItem
+                    -> planItem.getPlan().getTitle().toLowerCase().startsWith(filterTitle.toLowerCase())).collect(Collectors.toList());
+        }
+
+        planItems.setValue(filteredPlanItemList);
+        return filteredPlanItemList;
+    }
+
+    public List<PlanItem> filterPlansByTitle(String filter) {
         filteredPlanItemList.clear();
         filteredPlanItemList = planItemList.stream().filter(planItem
-                -> planItem.getPlan().getTitle().toLowerCase().contains(filter.toLowerCase())).collect(Collectors.toList());
+                -> planItem.getPlan().getTitle().toLowerCase().startsWith(filter.toLowerCase())).collect(Collectors.toList());
 
         //ArrayList<PlanItem> listToSubmit = new ArrayList<>(filteredPlanItemList);
         planItems.setValue(filteredPlanItemList);
@@ -79,9 +113,26 @@ public class RecyclerViewModeDailyPlan extends ViewModel {
         return filteredPlanItemList;
     }
 
+    public List<PlanItem> filterPlansByImportance(int importance) {
+        if(importance >= 0 && importance < 3)
+        {
+            filteredPlanItemList.clear();
+            filteredPlanItemList = planItemList.stream().filter(planItem
+                    -> planItem.getPlan().getImportanceColor() == importance).collect(Collectors.toList());
+
+            planItems.setValue(filteredPlanItemList);
+            return filteredPlanItemList;
+        }
+        else
+        {
+            planItems.setValue(planItemList);
+            return planItemList;
+        }
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     public List<PlanItem> dontShowPastPlans(boolean isChecked) {
-        if(isChecked)
+        if(!isChecked)
         {
             filteredPlanItemList.clear();
 
@@ -93,7 +144,11 @@ public class RecyclerViewModeDailyPlan extends ViewModel {
 
             return filteredPlanItemList;
         }
-        else return planItemList;
+        else
+        {
+            planItems.setValue(planItemList);
+            return planItemList;
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

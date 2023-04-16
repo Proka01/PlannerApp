@@ -24,7 +24,7 @@ public class DateCell implements Serializable {
     {
         String titles[] = {"Algebra lecture", "Dentist", "Project meeting", "Walk the dog"};
         String descriptions[] = {"Groups and Monoids", "Wash teethes", "Prepare presentation", "Throw the ball"};
-        String time[] = {"15:00 - 16:00", "16:00 - 17:00", "17:00 - 18:00", "18:00 - 19:00"};
+        String time[] = {"15:00 - 16:00", "16:00 - 17:00", "1:00 - 2:00", "18:00 - 19:00"};
         int importanceColors[] = {1,2,2,0};
 
         int min = 0; // inclusive minimum value

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -107,6 +108,10 @@ public class PlanItemAdapter extends ListAdapter<PlanItem, PlanItemAdapter.ViewH
             ImageView editPlanIV = itemView.findViewById(R.id.editPlanIV);
             ImageView deletePlanIV = itemView.findViewById(R.id.deletePlanIV);
             imageView.setBackgroundColor(Color.WHITE);
+
+            planItemLayout.setBackgroundColor(Color.WHITE);
+            Drawable myDrawable = context.getResources().getDrawable(R.drawable.data_cell_layout_border);
+            planItemLayout.setBackground(myDrawable);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 if(isPlan1BeforePlan2(planItem.getPlan().getTime(),LocalTime.now()))
