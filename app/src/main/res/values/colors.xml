@@ -13,4 +13,8 @@
     <color name="mid">#f7cd35</color>
     <color name="high">#f58a51</color>
 
+    <!--  my colors  -->
+    <color name="action_bar_color">#16d9eb</color>
+    <color name="plan_item_background_color">#c5f6fa</color>
+
 </resources>

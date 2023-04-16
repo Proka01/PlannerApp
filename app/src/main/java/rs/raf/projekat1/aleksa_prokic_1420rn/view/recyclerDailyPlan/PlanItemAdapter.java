@@ -109,8 +109,7 @@ public class PlanItemAdapter extends ListAdapter<PlanItem, PlanItemAdapter.ViewH
             ImageView deletePlanIV = itemView.findViewById(R.id.deletePlanIV);
             imageView.setBackgroundColor(Color.WHITE);
 
-            planItemLayout.setBackgroundColor(Color.WHITE);
-            Drawable myDrawable = context.getResources().getDrawable(R.drawable.data_cell_layout_border);
+            Drawable myDrawable = context.getResources().getDrawable(R.drawable.plan_item_background);
             planItemLayout.setBackground(myDrawable);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
