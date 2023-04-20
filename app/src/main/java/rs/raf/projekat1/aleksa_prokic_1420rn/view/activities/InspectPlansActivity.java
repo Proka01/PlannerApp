@@ -59,6 +59,18 @@ public class InspectPlansActivity extends AppCompatActivity {
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
         }
+
+        if(requestCode == 4 && resultCode == 500) {
+            Intent returnIntent = new Intent();
+            setResult(500, returnIntent);
+            finish();
+        }
+    }
+
+    public void onBackPressed() {
+        Intent returnIntent = new Intent();
+        setResult(500, returnIntent);
+        finish();
     }
 
     private void init()

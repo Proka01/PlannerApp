@@ -117,7 +117,9 @@ public class EditPlanActivity extends AppCompatActivity {
         });
 
         cancelBtn.setOnClickListener(v -> {
-            //TODO implement cancel action
+            Intent returnIntent = new Intent();
+            setResult(500, returnIntent);
+            finish();
         });
     }
 }
